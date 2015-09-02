@@ -3,12 +3,15 @@ package org.nadozirny_sv.ua.cubic;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -47,6 +50,13 @@ public class NoteActivity extends AppCompatActivity {
                     return false;
                 }
                 Intent intent=new Intent();
+                if (!ni.getTitle().matches(title.getText().toString())){
+                    if (new File(DestDir.get().path + '/' +title.getText()).exists()){
+                        Toast.makeText(this, Html.fromHtml("<font color='red'><b>"+title.getText()+"</b></font> - "
+                                +getResources().getString(R.string.check_filename_exists)),Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
                 ni.setTitle(title.getText().toString());
                 ni.setDesc(desc.getText().toString());
                 ni.save();

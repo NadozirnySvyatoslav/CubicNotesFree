@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 
 /**
@@ -30,7 +31,13 @@ import java.util.Comparator;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>  {
     private ArrayList<NotesItem> feed;
     private Context mContext;
+    final String trashFolder="/trash";
     public NotesAdapter(Context context){
+        if (!(new File(DestDir.get().path+trashFolder)).exists()){
+            new File(DestDir.get().path+trashFolder).mkdir();
+        }
+        clearOldBackup();
+
         feed=new ArrayList<NotesItem>();
         mContext=context;
     }
@@ -49,7 +56,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         if (noteItem.fullView) {
             notesHolder.desc.setVisibility(View.VISIBLE);
             notesHolder.desc.setText(noteItem.getDesc());
-
         }else{
             notesHolder.desc.setVisibility(View.GONE);
         }
@@ -131,7 +137,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     }
     public void deleteItem(int pos) {
         new File(DestDir.get().path+"/"+feed.get(pos).getTitle()).
-                renameTo(new File(DestDir.get().path + "/backup/" + feed.get(pos).getTitle()));
+                renameTo(new File(DestDir.get().path + trashFolder + "/" + feed.get(pos).getTitle()));
         feed.remove(pos);
 
     }
@@ -139,12 +145,19 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     public void editItem(int pos){
         Intent i=new Intent(mContext,NoteActivity.class);
         i.putExtra("filename", feed.get(pos).getTitle());
-        ((Activity)mContext).startActivityForResult(i,1);
+        ((Activity)mContext).startActivityForResult(i, 1);
     }
     public void clear() {
         feed.clear();
     }
-
+    private void clearOldBackup() {
+        File[] files=new File(DestDir.get().path+trashFolder).listFiles();
+        for(File f: files) {
+            if (f.isFile() && ((new Date().getTime() - f.lastModified()) / (24 * 60 * 60 * 1000)) > 1) { //more than 2 days
+                f.delete();
+            }
+        }
+    }
     public void sort() {
         Collections.sort(feed,new Comparator<NotesItem>(){
             @Override
@@ -191,8 +204,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
                     return;
             }
         }
-
-
     }
 
 }

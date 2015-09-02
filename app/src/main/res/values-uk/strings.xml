@@ -46,4 +46,5 @@
         </body>
         </html>
         ]]></string>
+    <string name="check_filename_exists">такий файл вже існує</string>
 </resources>

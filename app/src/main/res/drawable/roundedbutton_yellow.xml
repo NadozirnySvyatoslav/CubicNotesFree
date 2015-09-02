@@ -3,7 +3,7 @@
     <item android:state_pressed="false">
         <shape android:shape="oval"
             android:padding="0dp">
-            <solid android:color="#faedc1"/>
+            <solid android:color="@color/yellow_500"/>
             <stroke android:width="1sp" android:color="#fff" />
             <padding android:left="10dp" android:top="10dp"
                 android:right="10dp" android:bottom="10dp" />
@@ -11,7 +11,7 @@
     </item>
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="#f9eb9c"/>
+            <solid android:color="@color/yellow_700"/>
             <padding android:left="10dp" android:top="10dp"
                 android:right="10dp" android:bottom="10dp" />
         </shape>

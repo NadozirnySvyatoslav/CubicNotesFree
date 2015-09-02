@@ -47,4 +47,5 @@
         ]]></string>
     <string name="about_copyright">Svyatoslav Nadozirny (C) 2015</string>
     <string name="action_about">About</string>
+    <string name="check_filename_exists">file with same name exists</string>
 </resources>

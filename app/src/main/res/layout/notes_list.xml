@@ -1,18 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="4dp"
-    android:paddingRight="4dp"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:padding="4dp"
-    tools:context="org.nadozirny_sv.ua.cubic.MainActivity">
+    android:layout_height="match_parent"
 
+
+    tools:context="org.nadozirny_sv.ua.cubic.MainActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/bg_picture"
+        android:scaleType="fitXY" />
     <view
         android:id="@+id/notes_list"
         class="android.support.v7.widget.RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"  />
+        android:layout_centerInParent="true"
+        android:layout_margin="4dp" />
     <ProgressBar
         android:id="@+id/notes_progress"
         android:layout_width="wrap_content"
@@ -20,20 +27,23 @@
         android:layout_centerInParent="true"/>
 
     <ImageButton
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:id="@+id/add_item"
         android:layout_alignBottom="@+id/notes_list"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:clickable="false"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_fab_add"
         android:cropToPadding="false"
         android:adjustViewBounds="false"
         android:background="@drawable/roundedbutton_yellow"
         android:padding="8dp"
         android:scaleType="centerCrop"
         android:transitionName="addItem"
-        android:layout_marginBottom="48dp" />
+        android:layout_marginBottom="48dp"
+        android:layout_marginRight="16dp" />
+
+
 
 </RelativeLayout>

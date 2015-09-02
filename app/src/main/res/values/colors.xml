@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="blue" type="color">#FF33B5E5</item>
+    <item name="purple" type="color">#FFAA66CC</item>
+    <item name="green" type="color">#FF99CC00</item>
+    <item name="orange" type="color">#FFFFBB33</item>
+    <item name="red" type="color">#FFFF4444</item>
+    <item name="darkblue" type="color">#FF0099CC</item>
+    <item name="darkpurple" type="color">#FF9933CC</item>
+    <item name="darkgreen" type="color">#FF669900</item>
+    <item name="darkorange" type="color">#FFFF8800</item>
+    <item name="darkred" type="color">#FFCC0000</item>
+
+    <item name="black" type="color">#FF000000</item>
+
+    <item name="yellow_50" type="color">#fffde7</item>
+    <item name="yellow_100" type="color">#fff59d</item>
+    <item name="yellow_200" type="color">#fff59d</item>
+    <item name="yellow_300" type="color">#fff176</item>
+    <item name="yellow_400" type="color">#ffee58</item>
+    <item name="yellow_500" type="color">#ffeb3b</item>
+    <item name="yellow_600" type="color">#fdd835</item>
+    <item name="yellow_700" type="color">#fbc02d</item>
+    <item name="yellow_800" type="color">#f9a825</item>
+    <item name="yellow_900" type="color">#f57f17</item>
+    <item name="yellow_A100" type="color">#ffff8d</item>
+    <item name="yellow_A200" type="color">#ffff00</item>
+    <item name="yellow_A400" type="color">#ffea00</item>
+    <item name="yellow_A700" type="color">#ffd600</item>
+
+    <integer-array name="androidcolors">
+        <item>@color/blue</item>
+        <item>@color/purple</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/darkblue</item>
+        <item>@color/darkpurple</item>
+        <item>@color/darkgreen</item>
+        <item>@color/darkorange</item>
+        <item>@color/darkred</item>
+    </integer-array>
+
+</resources> 

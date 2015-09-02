@@ -18,4 +18,5 @@
     <string name="search_hint">Поиск</string>
     <string name="title_activity_about">О программе</string>
     <string name="action_about">О программе</string>
+    <string name="check_filename_exists">такой файл существует уже</string>
 </resources>

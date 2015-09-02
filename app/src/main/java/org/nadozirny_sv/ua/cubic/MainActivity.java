@@ -34,9 +34,9 @@ import android.widget.ProgressBar;
 
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public final class MainActivity extends AppCompatActivity implements View.OnClickListener {
     final String mainFolder="/Notes";
-    final String trashFolder="/.trash";
+
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;
     private ArrayList<NotesItem> feed;
@@ -60,11 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             DestDir.get().path=getFilesDir().getAbsolutePath();
         }
 
-        if (!(new File(DestDir.get().path+trashFolder)).exists()){
-            new File(DestDir.get().path+trashFolder).mkdir();
-        }
-
-        clearOldBackup();
 
         mRecyclerView=(RecyclerView)findViewById(R.id.notes_list);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
@@ -119,16 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
     }
-
-    private void clearOldBackup() {
-        File[] files=new File(DestDir.get().path+"/backup").listFiles();
-        for(File f: files) {
-            if (f.isFile() && ((new Date().getTime() - f.lastModified()) / (24 * 60 * 60 * 1000)) > 1) { //more than 2 days
-                f.delete();
-            }
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
