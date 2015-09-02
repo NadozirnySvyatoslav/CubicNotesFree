@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Нотатки</string>
+    <string name="action_settings">Налагодження</string>
+    <string name="title_activity_note">Редагування</string>
+    <string name="edit_desc">Мої примітки</string>
+    <string name="edit_title">Назва</string>
+    <string name="check_filename">Введіть  назву файлу в назві примітки</string>
+    <string name="list_no_desc">Немає приміток</string>
+    <string name="date_now">зараз</string>
+    <string name="date_sec">сек.</string>
+    <string name="date_mins">хв.</string>
+    <string name="date_min">хв.</string>
+    <string name="date_hours">год.</string>
+    <string name="date_hour">год.</string>
+    <string name="date_days">днів</string>
+    <string name="date_day">день</string>
+    <string name="search_hint">Пошук</string>
+    <string name="title_activity_about">Про програму</string>
+    <string name="action_about">Про програму</string><string name="about_text"><![CDATA[
+        <html>
+        <meta content=\"text/html; charset=UTF-8\" http-equiv=\"content-type\">
+        <body>
+        <h1>Вітаю!</h1>
+        <p>Це простий і швидкий записник для повсякденного використання</p>
+        <h2>Інструкція</h2>
+        <li><b>Загальне</b>
+        <p>Всі записки зберігаються в папці <code>"Phone_storage/Notes"</code> для доступу через будь-який файл-менеджер або у внутрішній пам\'яті пристрою.</p>
+        <p>Назва примітки є назвою файла, тому треба бути уважним при виборі назви для примітки. Вона не повинна містити такі символи - \\,/,апостроф,*  та ін.</p>
+        </li>
+        <li><b>Додати примітку</b>
+        <p>Натисніть "+" і дайте назву примітці як назву файла.</p>
+        <p>Опис можна заповнювати при бажанні.</p>
+        </li>
+        <li><b>Видалення примітки</b>
+            <p>Посуньте примітку  вправо  >>> в списку приміток.</p>
+            <p>Після видалення всі примітки переносяться в папку <code>"Phone_storage/Notes/backup"</code>. Примітки в цій папці видаляються назавжди, якщо вони не використовувались більше 1 дня.</p>
+            <p>Для відновлення примітки достатньо використати файл-менеджер і перенести примітку назад в папку <code>"Phone_storage/Notes/backup"</code></p>
+        </li>
+        <li><b>Зміна примітки</b>
+            <p>Натисність на назві примітки і відредагуйте примітку</p>
+        </li>
+        <li><b>Перегляд примітки в списку</b>
+            <p>Натисність на кнопку розкрити примітку в правому кутку примітки</p>
+        </li>
+        </body>
+        </html>
+        ]]></string>
+</resources>

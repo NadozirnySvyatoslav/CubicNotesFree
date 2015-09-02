@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="action_settings">Настройки</string>
+    <string name="title_activity_note">Редактирование</string>
+    <string name="edit_title">Заглавие</string>
+    <string name="edit_desc">Ваши заметки</string>
+    <string name="check_filename">Введите имя файла в заглавие</string>
+    <string name="list_no_desc">Нет описания</string>
+    <string name="date_day">день</string>
+    <string name="date_days">дней</string>
+    <string name="date_hour">час</string>
+    <string name="date_hours">час.</string>
+    <string name="date_min">мин.</string>
+    <string name="date_mins">мин.</string>
+    <string name="date_now">сейчас</string>
+    <string name="date_sec">сек.</string>
+    <string name="search_hint">Поиск</string>
+    <string name="title_activity_about">О программе</string>
+    <string name="action_about">О программе</string>
+</resources>
