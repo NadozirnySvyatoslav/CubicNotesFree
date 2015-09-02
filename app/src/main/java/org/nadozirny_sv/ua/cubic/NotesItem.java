@@ -59,9 +59,11 @@ public class NotesItem {
         }catch(Exception e){
             e.printStackTrace();
         }finally {
-            if (input!=null) try{
-                input.close();
-            }catch(Exception e){
+            if (input!=null) {
+                try{
+                    input.close();
+                }catch(Exception e){
+                }
             }
         }
     }

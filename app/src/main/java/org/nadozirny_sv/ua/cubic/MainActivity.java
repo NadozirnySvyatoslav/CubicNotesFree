@@ -35,6 +35,8 @@ import android.widget.ProgressBar;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    final String mainFolder="/Notes";
+    final String trashFolder="/.trash";
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;
     private ArrayList<NotesItem> feed;
@@ -49,17 +51,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String state = Environment.getExternalStorageState();
 
         if (Environment.MEDIA_MOUNTED.equals(state) && !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            if (!(new File(Environment.getExternalStorageDirectory()+"/Notes")).exists()) {
-                new File(Environment.getExternalStorageDirectory() + "/Notes").mkdir();
+            if (!(new File(Environment.getExternalStorageDirectory()+mainFolder)).exists()) {
+                new File(Environment.getExternalStorageDirectory() + mainFolder).mkdir();
                 startActivity(new Intent(this, AboutActivity.class));
             }
-            DestDir.get().path=new File(Environment.getExternalStorageDirectory()+"/Notes").getAbsolutePath();
+            DestDir.get().path=new File(Environment.getExternalStorageDirectory()+mainFolder).getAbsolutePath();
         }else{
             DestDir.get().path=getFilesDir().getAbsolutePath();
         }
 
-        if (!(new File(DestDir.get().path+"/backup")).exists())
-            new File(DestDir.get().path+"/backup").mkdir();
+        if (!(new File(DestDir.get().path+trashFolder)).exists()){
+            new File(DestDir.get().path+trashFolder).mkdir();
+        }
 
         clearOldBackup();
 
@@ -76,9 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
                     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
                         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
                             if (dX>0) {
                                 View itemView = viewHolder.itemView;
                                 Paint p = new Paint();
@@ -90,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 c.drawBitmap(b, 0, posY, p);
                                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                             }
-
                         }
                     }
                     @Override
@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 return;
                             case ItemTouchHelper.RIGHT:
-                                adapter.deleteItem(viewHolder.getAdapterPosition());
-                                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                                    adapter.deleteItem(viewHolder.getAdapterPosition());
+                                    adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                                 return;
 
                         }
@@ -116,12 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 };
         new ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(mRecyclerView);
         dataloader=new AsyncLoadtask().execute("");
-
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-
-
     }
 
     private void clearOldBackup() {
@@ -137,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -146,13 +141,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String query) {
                 loadByText(query);
                 return true;
             }
-
         });
         return super.onCreateOptionsMenu(menu);
     }
@@ -161,9 +154,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_about:
-                startActivity(new Intent(this,AboutActivity.class));
+                    startActivity(new Intent(this,AboutActivity.class));
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -174,10 +166,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.add_item:
-                adapter.insertItem("Note_" + new SimpleDateFormat("yyMMdd").format(new Date()));
-                mRecyclerView.scrollToPosition(0);
-                adapter.editItem(0);
-                return;
+                    adapter.insertItem("Note_" + new SimpleDateFormat("yyMMdd").format(new Date()));
+                    mRecyclerView.scrollToPosition(0);
+                    adapter.editItem(0);
+                    return;
         }
     }
 

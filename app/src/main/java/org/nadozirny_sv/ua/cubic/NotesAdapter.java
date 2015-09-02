@@ -33,13 +33,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     public NotesAdapter(Context context){
         feed=new ArrayList<NotesItem>();
         mContext=context;
-        //loaddata();
     }
 
     @Override
     public NotesHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View  view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.notes_row, null);
-            return new NotesHolder(view);
+        return new NotesHolder(view);
     }
 
     @Override
@@ -51,8 +50,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             notesHolder.desc.setVisibility(View.VISIBLE);
             notesHolder.desc.setText(noteItem.getDesc());
 
-        }else
+        }else{
             notesHolder.desc.setVisibility(View.GONE);
+        }
+
     }
 
     public void loaddata(String query) {
@@ -78,9 +79,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         }
 
         if (notfound) {
-                clear();
+            clear();
             }
-                else sort();
+        else {
+            sort();
+        }
     }
     private boolean findText(String param, File file) {
         BufferedReader input=null;
@@ -97,9 +100,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         }catch(Exception e){
             e.printStackTrace();
         }finally {
-            if (input!=null) try{
-                input.close();
-            }catch(Exception e){
+            if (input!=null) {
+                try{
+                    input.close();
+                }catch(Exception e){
+                }
             }
         }
     return false;
@@ -134,12 +139,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     public void editItem(int pos){
         Intent i=new Intent(mContext,NoteActivity.class);
         i.putExtra("filename", feed.get(pos).getTitle());
-        //ActivityOptions ao = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, ((MainActivity)mContext).add_item, "addItem");
         ((Activity)mContext).startActivityForResult(i,1);
     }
     public void clear() {
         feed.clear();
-    // notifyDataSetChanged();
     }
 
     public void sort() {
@@ -155,7 +158,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     }
 
     public class NotesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        //add itemView
         ImageView show;
         TextView title;
         TextView desc;

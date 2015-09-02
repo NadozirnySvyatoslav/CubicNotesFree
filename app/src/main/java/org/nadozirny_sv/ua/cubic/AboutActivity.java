@@ -13,7 +13,6 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         WebView wv= (WebView) findViewById(R.id.webView);
-
         wv.loadData(getResources().getString(R.string.about_text), "text/html; charset=UTF-8", null);
     }
 

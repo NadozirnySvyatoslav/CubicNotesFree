@@ -22,7 +22,6 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note);
         Bundle extras = getIntent().getExtras();
         String filename = extras.getString("filename");
-
         title= (EditText) findViewById(R.id.title);
         desc= (EditText) findViewById(R.id.desc);
         ni=new NotesItem(filename,getApplicationContext());
