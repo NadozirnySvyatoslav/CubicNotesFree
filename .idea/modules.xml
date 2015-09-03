@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Cubic.iml" filepath="$PROJECT_DIR$/Cubic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CubicNotesFree.iml" filepath="$PROJECT_DIR$/CubicNotesFree.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CubicNotesFree2.iml" filepath="$PROJECT_DIR$/CubicNotesFree2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
