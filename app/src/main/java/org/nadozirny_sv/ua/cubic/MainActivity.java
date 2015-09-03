@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -31,7 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-
+import android.widget.Toast;
 
 
 public final class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -113,8 +114,17 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
         dataloader=new AsyncLoadtask().execute("");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-    }
 
+    }
+    @Override
+    public void onConfigurationChanged(Configuration cfg){
+        super.onConfigurationChanged(cfg);
+        if (Configuration.ORIENTATION_LANDSCAPE==cfg.orientation){
+            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        }else{
+            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

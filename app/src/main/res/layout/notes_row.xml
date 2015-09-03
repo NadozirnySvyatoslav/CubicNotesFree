@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:padding="8dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#222"
                 android:textSize="15dp"
                 android:layout_toLeftOf="@+id/layout"
@@ -66,7 +67,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/desc"
                 android:layout_toLeftOf="@+id/layout"
                 android:layout_below="@+id/title"

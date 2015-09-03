@@ -37,7 +37,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             new File(DestDir.get().path+trashFolder).mkdir();
         }
         clearOldBackup();
-
         feed=new ArrayList<NotesItem>();
         mContext=context;
     }
@@ -53,11 +52,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         NotesItem noteItem=feed.get(i);
         notesHolder.title.setText(noteItem.getTitle());
         notesHolder.date.setText(noteItem.getDate(mContext));
+
         if (noteItem.fullView) {
             notesHolder.desc.setVisibility(View.VISIBLE);
             notesHolder.desc.setText(noteItem.getDesc());
+            notesHolder.show.setImageResource(android.R.drawable.ic_menu_revert);
         }else{
             notesHolder.desc.setVisibility(View.GONE);
+            notesHolder.show.setImageResource(android.R.drawable.ic_menu_more);
         }
 
     }
@@ -191,13 +193,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             switch(v.getId()){
                 case R.id.show:
                     feed.get(getAdapterPosition()).fullView=!feed.get(getAdapterPosition()).fullView;
-                    notifyItemChanged(getAdapterPosition());
+
                     if (feed.get(getAdapterPosition()).fullView){
                         ((ImageView)v).setImageResource(android.R.drawable.ic_menu_more);
                     }else{
                         ((ImageView)v).setImageResource(android.R.drawable.ic_menu_revert);
                     }
-
+                    notifyItemChanged(getAdapterPosition());
                     return;
                 case R.id.title:
                     editItem(getAdapterPosition());

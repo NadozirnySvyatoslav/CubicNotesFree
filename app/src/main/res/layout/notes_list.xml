@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:src="@drawable/bg_picture"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
     <view
         android:id="@+id/notes_list"
         class="android.support.v7.widget.RecyclerView"
