@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_margin="8dp"
-    card_view:cardCornerRadius="6dp">
-        <LinearLayout
-            android:id="@+id/bgcolor"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_height="match_parent"
 
+    android:paddingBottom="1px"
+    android:background="#ccc">
             <RelativeLayout
+                android:id="@+id/bgcolor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                >
-
+                android:background="#fff">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/select"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:src="@drawable/ic_checked"
-                    android:visibility="gone" />
+                    android:visibility="visible"
+                    android:layout_marginTop="16dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="16dp" />
 
                 <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="3"
-                android:padding="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#222"
-                android:textSize="15dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/layout"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
                     android:layout_toRightOf="@+id/select"
-                    android:layout_toEndOf="@+id/select" />
+                    android:layout_alignParentTop="true"
 
+                    android:layout_toLeftOf="@+id/layout"
+                    android:layout_toStartOf="@+id/layout"
+                    android:text="Titl"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:id="@+id/desc"
+                    android:visibility="visible"
+                    android:hint="@string/list_no_desc"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/select"
+                    android:layout_below="@+id/title"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp" />
 
-            <LinearLayout
+                <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginTop="8dp"
                     android:text="0"
                     android:id="@+id/date"
                     android:layout_alignParentTop="true"
@@ -73,24 +86,6 @@
                     android:padding="4dp"
                     android:layout_margin="4dp"
                     android:src="@android:drawable/ic_menu_more" />
-
             </LinearLayout>
-
-            </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/desc"
-                android:layout_toLeftOf="@+id/layout"
-                android:layout_below="@+id/title"
-                android:layout_toRightOf="@+id/show"
-                android:layout_toEndOf="@+id/show"
-                android:layout_margin="4dp"
-                android:visibility="gone"
-                android:hint="@string/list_no_desc" />
-        </LinearLayout>
-
-
-
-
-</android.support.v7.widget.CardView>
+</RelativeLayout>
+</LinearLayout>

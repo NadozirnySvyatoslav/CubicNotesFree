@@ -25,6 +25,7 @@ public class NotesItem {
     private String filename;
     private int color= Color.WHITE;
     private boolean selected=false;
+    private  long size;
 
     public NotesItem(String s,Context c){
 
@@ -34,6 +35,10 @@ public class NotesItem {
             //read data
             date=new Date(f.lastModified());
             desc=null;
+            if (f.length()<500){
+                fullView=true;
+                load();
+            }
         }else {
             //create new
             date=new Date();

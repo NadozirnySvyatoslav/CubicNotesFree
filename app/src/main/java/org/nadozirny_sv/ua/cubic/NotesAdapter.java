@@ -192,15 +192,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
                changed=true;
            }
 
-        notifyDataSetChanged();
-            if (!changed) {
-                Toast.makeText(mContext,mContext.getResources().getString(R.string.not_selected),Toast.LENGTH_SHORT).show();
-            }
+        }
+        if (!changed) {
+            Toast.makeText(mContext,mContext.getResources().getString(R.string.not_selected),Toast.LENGTH_SHORT).show();
+        }else{
+            notifyDataSetChanged();
         }
     }
-
-
-
     public class NotesHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ImageView show,select;
@@ -219,6 +217,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             this.desc= (TextView) itemView.findViewById(R.id.desc);
             this.date= (TextView) itemView.findViewById(R.id.date);
             title.setOnClickListener(this);
+            desc.setOnClickListener(this);
+            desc.setOnLongClickListener(this);
             title.setOnLongClickListener(this);
         }
         @Override
@@ -243,6 +243,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
                     notifyItemChanged(getAdapterPosition());
                     return;
                 case R.id.title:
+                case R.id.desc:
                     editItem(getAdapterPosition());
                     return;
             }
@@ -258,6 +259,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             switch(v.getId()){
 
                case R.id.title:
+                case R.id.desc:
                 if (feed.get(getAdapterPosition()).isSelected()) {
                     feed.get(getAdapterPosition()).setSelected(false);
                 } else {
