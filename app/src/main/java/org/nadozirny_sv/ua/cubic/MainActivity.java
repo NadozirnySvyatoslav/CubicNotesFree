@@ -21,18 +21,22 @@ import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
+
 
 
 public final class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,6 +48,9 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
     private NotesAdapter adapter;
     private AsyncTask<String, Void, Integer> dataloader;
     public ImageButton add_item;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private RelativeLayout mDrawerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +83,16 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                            if (dX>0) {
+                            if (dX<0) {
                                 View itemView = viewHolder.itemView;
                                 Paint p = new Paint();
                                 p.setARGB(255, 255, 0, 0);
-                                c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                                c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), itemView.getRight()-dX,
                                         (float) itemView.getBottom(), p);
                                 Bitmap b = BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_menu_delete);
                                 int posY=viewHolder.itemView.getTop()+(viewHolder.itemView.getHeight()/2-b.getHeight()/2);
-                                c.drawBitmap(b, 0, posY, p);
+                                int posX=viewHolder.itemView.getWidth()-b.getWidth();
+                                c.drawBitmap(b, posX, posY, p);
                                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                             }
                         }
@@ -99,9 +107,6 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
 
                         switch(i){
                             case ItemTouchHelper.LEFT:
-
-                                return;
-                            case ItemTouchHelper.RIGHT:
                                     adapter.deleteItem(viewHolder.getAdapterPosition());
                                     adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                                 return;
@@ -114,8 +119,26 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
         dataloader=new AsyncLoadtask().execute("");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerView= (RelativeLayout) findViewById(R.id.left_drawer);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                new Toolbar(this), R.string.drawer_open, R.string.drawer_close) {
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
 
-    }
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+        };
+
+
+        }
     @Override
     public void onConfigurationChanged(Configuration cfg){
         super.onConfigurationChanged(cfg);
@@ -159,6 +182,18 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        int[] color_id={R.id.white,R.id.orange_300,R.id.brown_300,R.id.yellow_300,
+                R.id.red_300,R.id.blue_200,R.id.green_300, R.id.pink_200 };
+        int[] colors={R.color.white,R.color.orange_300,R.color.brown_300,R.color.yellow_300,
+                R.color.red_300,R.color.blue_400,R.color.green_300,R.color.pink_200};
+        for(int i=0;i<color_id.length;i++) {
+            if (v.getId()==color_id[i]){
+                adapter.setItemsColor(getResources().getColor(colors[i]));
+                mDrawerLayout.closeDrawer(mDrawerView);
+                return;
+            }
+        }
+
         switch(v.getId()) {
             case R.id.add_item:
                     adapter.insertItem("Note_" + new SimpleDateFormat("yyMMdd").format(new Date()));

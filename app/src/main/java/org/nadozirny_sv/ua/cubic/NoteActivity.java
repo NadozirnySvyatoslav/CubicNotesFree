@@ -35,7 +35,7 @@ public class NoteActivity extends AppCompatActivity {
         title = (EditText) actionBar.getCustomView().findViewById(
                 R.id.title);
         desc= (EditText) findViewById(R.id.desc);
-        ni=new NotesItem(filename,getApplicationContext());
+        ni=new NotesItem(new File(filename).getName(),getApplicationContext());
         title.setText(ni.getTitle());
         desc.setText(ni.getDesc());
     }

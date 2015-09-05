@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,17 +53,24 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
 
     @Override
     public void onBindViewHolder(NotesHolder notesHolder, int i) {
-        NotesItem noteItem=feed.get(i);
+        NotesItem noteItem = feed.get(i);
         notesHolder.title.setText(noteItem.getTitle());
         notesHolder.date.setText(noteItem.getDate(mContext));
 
+        notesHolder.setBackground(noteItem.getColor());
         if (noteItem.fullView) {
             notesHolder.desc.setVisibility(View.VISIBLE);
             notesHolder.desc.setText(noteItem.getDesc());
             notesHolder.show.setImageResource(android.R.drawable.ic_menu_revert);
-        }else{
+        } else {
             notesHolder.desc.setVisibility(View.GONE);
             notesHolder.show.setImageResource(android.R.drawable.ic_menu_more);
+        }
+
+        if (noteItem.isSelected()) {
+            notesHolder.select.setVisibility(View.VISIBLE);
+        } else {
+            notesHolder.select.setVisibility(View.GONE);
         }
 
     }
@@ -138,15 +149,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         notifyItemInserted(0);
     }
     public void deleteItem(int pos) {
-        new File(DestDir.get().path+"/"+feed.get(pos).getTitle()).
-                renameTo(new File(DestDir.get().path + trashFolder + "/" + feed.get(pos).getTitle()));
+        new File(feed.get(pos).getFilename()).
+                renameTo(new File(DestDir.get().path +trashFolder +"/" + feed.get(pos).getTitle()));
         feed.remove(pos);
 
     }
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+   // @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void editItem(int pos){
         Intent i=new Intent(mContext,NoteActivity.class);
-        i.putExtra("filename", feed.get(pos).getTitle());
+        i.putExtra("filename", feed.get(pos).getFilename());
         ((Activity)mContext).startActivityForResult(i, 1);
     }
     public void clear() {
@@ -172,25 +183,55 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         });
     }
 
-    public class NotesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView show;
+    public void setItemsColor(int color) {
+        boolean changed=false;
+        for(NotesItem ni : feed){
+           if (ni.isSelected()){
+               ni.setColor(color);
+               ni.setSelected(false);
+               changed=true;
+           }
+
+        notifyDataSetChanged();
+            if (!changed) {
+                Toast.makeText(mContext,mContext.getResources().getString(R.string.not_selected),Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
+    public class NotesHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
+        ImageView show,select;
         TextView title;
         TextView desc;
         TextView date;
+        private int background;
 
         public NotesHolder(View itemView) {
             super(itemView);
             this.show= (ImageView) itemView.findViewById(R.id.show);
             show.setOnClickListener(this);
+            this.select= (ImageView) itemView.findViewById(R.id.select);
+            select.setOnClickListener(this);
             this.title=(TextView)itemView.findViewById(R.id.title);
             this.desc= (TextView) itemView.findViewById(R.id.desc);
             this.date= (TextView) itemView.findViewById(R.id.date);
             title.setOnClickListener(this);
-
+            title.setOnLongClickListener(this);
         }
         @Override
         public void onClick(View v) {
             switch(v.getId()){
+                case R.id.select:
+                    if (feed.get(getAdapterPosition()).isSelected()) {
+                        feed.get(getAdapterPosition()).setSelected(false);
+                    }else{
+                        feed.get(getAdapterPosition()).setSelected(true);
+                    }
+                    notifyItemChanged(getAdapterPosition());
+                    return;
                 case R.id.show:
                     feed.get(getAdapterPosition()).fullView=!feed.get(getAdapterPosition()).fullView;
 
@@ -205,6 +246,27 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
                     editItem(getAdapterPosition());
                     return;
             }
+        }
+
+        public void setBackground(int background) {
+            this.background = background;
+            itemView.findViewById(R.id.bgcolor).setBackgroundColor(background);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            switch(v.getId()){
+
+               case R.id.title:
+                if (feed.get(getAdapterPosition()).isSelected()) {
+                    feed.get(getAdapterPosition()).setSelected(false);
+                } else {
+                    feed.get(getAdapterPosition()).setSelected(true);
+                }
+                notifyItemChanged(getAdapterPosition());
+                return false;
+            }
+            return false;
         }
     }
 

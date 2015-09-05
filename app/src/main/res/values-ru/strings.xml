@@ -19,4 +19,6 @@
     <string name="title_activity_about">О программе</string>
     <string name="action_about">О программе</string>
     <string name="check_filename_exists">такой файл существует уже</string>
+    <string name="set_color">Применить цвет</string>
+    <string name="not_selected">Не выбрано заметок</string>
 </resources>

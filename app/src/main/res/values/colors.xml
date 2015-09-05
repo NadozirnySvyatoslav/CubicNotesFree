@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <item name="white" type="color">#FFFFFFFF</item>
     <item name="blue" type="color">#FF33B5E5</item>
     <item name="purple" type="color">#FFAA66CC</item>
     <item name="green" type="color">#FF99CC00</item>
@@ -28,6 +29,15 @@
     <item name="yellow_A200" type="color">#ffff00</item>
     <item name="yellow_A400" type="color">#ffea00</item>
     <item name="yellow_A700" type="color">#ffd600</item>
+
+    <item name="red_300" type="color">#e57373</item>
+    <item name="pink_200" type="color">#f48fb1</item>
+    <item name="blue_400" type="color">#42a5f5</item>
+    <item name="green_300" type="color">#81c784</item>
+    <item name="orange_300" type="color">#ffb74d</item>
+    <item name="brown_300" type="color">#bcaaa4</item>
+
+
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>

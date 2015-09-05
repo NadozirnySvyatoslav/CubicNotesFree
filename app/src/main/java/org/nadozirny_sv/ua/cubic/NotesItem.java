@@ -1,6 +1,9 @@
 package org.nadozirny_sv.ua.cubic;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -20,10 +23,12 @@ public class NotesItem {
     private String desc;
     private Date date;
     private String filename;
+    private int color= Color.WHITE;
+    private boolean selected=false;
 
     public NotesItem(String s,Context c){
-        title=s;
-        filename=DestDir.get().path + '/' + title;
+
+        filename=DestDir.get().path + '/' + s;
         File f=new File(filename);
         if (f.exists()){
             //read data
@@ -35,6 +40,14 @@ public class NotesItem {
             desc="";
             save();
         }
+            //parse color from filename
+        if (s.matches(".*_#[0-9a-f]{8}$")){
+            color=Color.parseColor(s.substring(s.length() - 9));
+            title=s.substring(0, s.length() - 10);
+        }else{
+            title=s;
+        }
+
     }
     public void save(){
         try {
@@ -74,12 +87,7 @@ public class NotesItem {
         return thumbnail;
     }
     public void setTitle(String title){
-        if (!title.matches(this.title)){
-            String new_name=DestDir.get().path+"/"+title;
-            new File(filename).renameTo(new File(new_name));
-            filename=new_name;
-        }
-        this.title=title;
+        moveIfDiff(title,color);
     }
 
     public void setThumbnail(String thumbnail) {
@@ -117,5 +125,29 @@ public class NotesItem {
 
     public long getDateInt() {
         return date.getTime();
+    }
+    public void moveIfDiff(String title,int color){
+        if (color!=this.color || !title.matches(this.title)){
+            String old_name=this.getFilename();
+            this.color = color;
+            this.title = title;
+            filename=DestDir.get().path + '/' + title+(color!=Color.WHITE?"_#"+String.format("%h",color):"");
+            new File(old_name).renameTo(new File(getFilename()));
+        }
+    }
+    public void setColor(int color) {
+        moveIfDiff(title, color);
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean b) {
+        selected=b;
+    }
+
+    public int getColor() {
+        return color;
     }
 }
