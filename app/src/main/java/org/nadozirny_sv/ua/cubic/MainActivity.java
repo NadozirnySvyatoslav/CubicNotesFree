@@ -1,17 +1,11 @@
 package org.nadozirny_sv.ua.cubic;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -22,35 +16,37 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 
-
-public final class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public final class MainActivity extends AppCompatActivity implements View.OnClickListener,AddDeletedItemInterface {
     final String mainFolder="/Notes";
 
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;
-    private ArrayList<NotesItem> feed;
     private NotesAdapter adapter;
     private AsyncTask<String, Void, Integer> dataloader;
     public ImageButton add_item;
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private RelativeLayout mDrawerView;
+    private ListView mListDeleted;
+    private LinearLayout mDeletedLayout;
+    private ArrayList<HashMap<String,Object>> filenames=new ArrayList<HashMap<String,Object>>();
+    private UndeleteAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +74,7 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
         adapter=new NotesAdapter(this);
         progressBar.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
+
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
@@ -104,39 +101,57 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
 
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
-
                         switch(i){
                             case ItemTouchHelper.LEFT:
                                     adapter.deleteItem(viewHolder.getAdapterPosition());
                                     adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                                return;
-
+                                break;
                         }
-
                     }
                 };
         new ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(mRecyclerView);
         dataloader=new AsyncLoadtask().execute("");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        try {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerView= (RelativeLayout) findViewById(R.id.left_drawer);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                new Toolbar(this), R.string.drawer_open, R.string.drawer_close) {
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
+        mListDeleted=(ListView)findViewById(R.id.deleted);
+        mDeletedLayout= (LinearLayout) findViewById(R.id.deleted_layout);
+        adapter.addDeleted=this;
+        listAdapter = new UndeleteAdapter(this, R.layout.deleted, filenames);
+        adapter.clearOldBackup(false);
+        mListDeleted.setAdapter(listAdapter);
+        listAdapter.recoverer=new RecoverNoteInterface() {
+            @Override
+            public void recoverNote(String name,int i) {
+                adapter.recoverNote(name);
+                filenames.remove(i);
+                listAdapter.notifyDataSetChanged();
+                adapter.loaddata("");
+                adapter.notifyDataSetChanged();
+                if (filenames.size()==0){
+                    mDeletedLayout.setVisibility(View.GONE);
+                }
 
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
-
         };
-
+        Button mUndelete = (Button) findViewById(R.id.buttonUndelete);
+        mUndelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //clear recycled files and hide recycle.bin
+                adapter.clearOldBackup(true);
+                filenames.clear();
+                listAdapter.notifyDataSetChanged();
+                adapter.loaddata("");
+                adapter.notifyDataSetChanged();
+                mDeletedLayout.setVisibility(View.GONE);
+            }
+        });
 
         }
     @Override
@@ -159,6 +174,7 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String query) {
                 loadByText(query);
@@ -196,10 +212,10 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
 
         switch(v.getId()) {
             case R.id.add_item:
-                    adapter.insertItem("Note_" + new SimpleDateFormat("yyMMdd").format(new Date()));
+                adapter.insertItem("Note_" + new SimpleDateFormat("yyMMdd").format(new Date()));
                     mRecyclerView.scrollToPosition(0);
                     adapter.editItem(0);
-                    return;
+                    break;
         }
     }
 
@@ -220,6 +236,17 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
             adapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void addDeletedItem(File file) {
+        HashMap<String,Object> item=new HashMap<String,Object>();
+        item.put("Name",file.getName());
+        item.put("selected", false);
+        filenames.add(item);
+        listAdapter.notifyDataSetChanged();
+        mDeletedLayout.setVisibility(View.VISIBLE);
+    }
+
     public  class AsyncLoadtask extends AsyncTask<String,Void,Integer>{
         @Override
         protected void onPreExecute(){
@@ -240,4 +267,6 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
             progressBar.setVisibility(View.GONE);
         }
     }
+
 }
+

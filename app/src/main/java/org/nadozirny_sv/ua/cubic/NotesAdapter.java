@@ -1,16 +1,9 @@
 package org.nadozirny_sv.ua.cubic;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -36,11 +28,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     private ArrayList<NotesItem> feed;
     private Context mContext;
     final String trashFolder="/trash";
+    public AddDeletedItemInterface addDeleted;
     public NotesAdapter(Context context){
         if (!(new File(DestDir.get().path+trashFolder)).exists()){
             new File(DestDir.get().path+trashFolder).mkdir();
         }
-        clearOldBackup();
         feed=new ArrayList<NotesItem>();
         mContext=context;
     }
@@ -149,8 +141,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         notifyItemInserted(0);
     }
     public void deleteItem(int pos) {
+        File new_file=new File(DestDir.get().path + trashFolder + "/" + feed.get(pos).getTitle());
         new File(feed.get(pos).getFilename()).
-                renameTo(new File(DestDir.get().path +trashFolder +"/" + feed.get(pos).getTitle()));
+                renameTo(new_file);
+        addDeleted.addDeletedItem(new_file);
         feed.remove(pos);
 
     }
@@ -163,11 +157,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     public void clear() {
         feed.clear();
     }
-    private void clearOldBackup() {
+    public void clearOldBackup(boolean force) {
         File[] files=new File(DestDir.get().path+trashFolder).listFiles();
         for(File f: files) {
-            if (f.isFile() && ((new Date().getTime() - f.lastModified()) / (24 * 60 * 60 * 1000)) > 1) { //more than 2 days
+            if (force || (f.isFile() && ((new Date().getTime() - f.lastModified()) / (24 * 60 * 60 * 1000)) > 1) ) { //more than 2 days
                 f.delete();
+            }else{
+                if (addDeleted!=null) addDeleted.addDeletedItem(f);
             }
         }
     }
@@ -199,13 +195,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             notifyDataSetChanged();
         }
     }
+
+    public void recoverNote(String s) {
+        File new_file=new File(DestDir.get().path + "/" + s);
+        new File(DestDir.get().path + trashFolder + "/" + s).renameTo(new_file);
+    }
+
     public class NotesHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ImageView show,select;
         TextView title;
         TextView desc;
         TextView date;
-        private int background;
 
         public NotesHolder(View itemView) {
             super(itemView);
@@ -250,14 +251,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         }
 
         public void setBackground(int background) {
-            this.background = background;
             itemView.findViewById(R.id.bgcolor).setBackgroundColor(background);
         }
 
         @Override
         public boolean onLongClick(View v) {
             switch(v.getId()){
-
                case R.id.title:
                 case R.id.desc:
                 if (feed.get(getAdapterPosition()).isSelected()) {
