@@ -1,0 +1,55 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.nadozirny_sv.ua.cubic.MainActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/bg_picture"
+        android:scaleType="centerCrop" />
+    <view
+        android:id="@+id/notes_list"
+        class="android.support.v7.widget.RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+    <ProgressBar
+        android:id="@+id/notes_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <ImageButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/add_item"
+        android:layout_alignBottom="@+id/notes_list"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="false"
+        android:src="@drawable/ic_fab_add"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:background="@drawable/roundedbutton_yellow"
+        android:padding="8dp"
+        android:scaleType="centerCrop"
+        android:transitionName="addItem"
+        android:layout_marginBottom="48dp"
+        android:layout_marginRight="16dp" />
+
+
+
+</RelativeLayout>
+    <include layout="@layout/drawer"/>
+
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/AndroidStudioProjects/CubicNotesFree/app/src/main/res/layout/notes_list.xml -->

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cubic="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item android:id="@+id/action_save"
+        android:title="Save"
+        android:icon="@android:drawable/ic_menu_save"
+        cubic:showAsAction="always" />
+
+</menu><!-- From: file:/C:/AndroidStudioProjects/CubicNotesFree/app/src/main/res/menu/note_activity_actions.xml -->

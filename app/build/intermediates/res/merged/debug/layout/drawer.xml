@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/left_drawer"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0dp"
+    android:background="#fff"
+    android:layout_width="240dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/set_color"
+        android:id="@+id/set_color"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="8dp"
+        android:fontFamily="sans-serif-light" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/red_300"
+            android:background="@drawable/roundedbutton_red300"
+            android:layout_margin="4dp"
+            android:onClick="onClick" />
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/pink_200"
+            android:background="@drawable/roundedbutton_pink200"
+            android:layout_margin="4dp"
+            android:onClick="onClick"/>
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/blue_200"
+            android:background="@drawable/roundedbutton_blue400"
+            android:layout_margin="4dp"
+            android:onClick="onClick"/>
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/green_300"
+            android:background="@drawable/roundedbutton_green300"
+            android:layout_margin="4dp"
+            android:onClick="onClick"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_color"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/white"
+            android:background="@drawable/roundedbutton_white"
+            android:layout_margin="4dp"
+            android:onClick="onClick" />
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/yellow_300"
+            android:background="@drawable/roundedbutton_yellow300"
+            android:layout_margin="4dp"
+            android:onClick="onClick"/>
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/orange_300"
+            android:background="@drawable/roundedbutton_orange300"
+            android:layout_margin="4dp"
+            android:onClick="onClick"/>
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/brown_300"
+            android:background="@drawable/roundedbutton_brown300"
+            android:layout_margin="4dp"
+            android:onClick="onClick"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout2"
+        android:id="@+id/deleted_layout"
+        android:weightSum="1"
+        android:visibility="gone">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_forever"
+            android:id="@+id/buttonUndelete"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:fontFamily="sans-serif-light"
+            android:drawableLeft="@android:drawable/ic_menu_delete"
+            />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/deleted"
+            android:choiceMode="multipleChoice" />
+    </LinearLayout>
+
+</RelativeLayout><!-- From: file:/C:/AndroidStudioProjects/CubicNotesFree/app/src/main/res/layout/drawer.xml -->

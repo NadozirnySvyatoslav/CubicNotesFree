@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cubic="http://schemas.android.com/apk/res-auto"
+    >
+    <item android:id="@+id/action_search"
+        android:title="@string/search_hint"
+        android:icon="@android:drawable/ic_menu_search"
+        android:configChanges="orientation"
+        cubic:showAsAction="ifRoom|collapseActionView"
+        cubic:actionViewClass="android.support.v7.widget.SearchView" />
+    <item android:id="@+id/action_about" android:title="@string/action_about"
+        android:orderInCategory="100" cubic:showAsAction="never" />
+
+</menu><!-- From: file:/C:/AndroidStudioProjects/CubicNotesFree/app/src/main/res/menu/main_activity_actions.xml -->
