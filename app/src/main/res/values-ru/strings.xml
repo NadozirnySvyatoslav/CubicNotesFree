@@ -22,4 +22,7 @@
     <string name="set_color">Применить цвет</string>
     <string name="not_selected">Не выбрано заметок</string>
     <string name="delete_forever">Удалить навсегда</string>
+    <string name="go_next">Дальше...</string>
+    <string name="check_filename_wrong">неправильное имя файла</string>
+    <string name="about_copyright">Святослав Надозирный (C) 2015</string>
 </resources>

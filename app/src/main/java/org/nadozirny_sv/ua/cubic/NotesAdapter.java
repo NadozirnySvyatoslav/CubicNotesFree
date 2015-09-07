@@ -29,6 +29,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
     private Context mContext;
     final String trashFolder="/trash";
     public AddDeletedItemInterface addDeleted;
+    public SelectInterface selectItem;
     public NotesAdapter(Context context){
         if (!(new File(DestDir.get().path+trashFolder)).exists()){
             new File(DestDir.get().path+trashFolder).mkdir();
@@ -201,6 +202,23 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
         new File(DestDir.get().path + trashFolder + "/" + s).renameTo(new_file);
     }
 
+    public void deletedSelected() {
+        boolean changed=false;
+        for(int i=feed.size()-1;i>=0;i--){
+            NotesItem ni=feed.get(i);
+            if (ni.isSelected()){
+                deleteItem(feed.indexOf(ni));
+                changed=true;
+            }
+        }
+        if (!changed) {
+            Toast.makeText(mContext,mContext.getResources().getString(R.string.not_selected),Toast.LENGTH_SHORT).show();
+        }else{
+            notifyDataSetChanged();
+        }
+
+    }
+
     public class NotesHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ImageView show,select;
@@ -231,6 +249,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
                     }else{
                         feed.get(getAdapterPosition()).setSelected(true);
                     }
+                    selectItem.select(getAdapterPosition(),feed.get(getAdapterPosition()).isSelected());
                     notifyItemChanged(getAdapterPosition());
                     return;
                 case R.id.show:
@@ -263,7 +282,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
                     feed.get(getAdapterPosition()).setSelected(false);
                 } else {
                     feed.get(getAdapterPosition()).setSelected(true);
+
                 }
+                selectItem.select(getAdapterPosition(),feed.get(getAdapterPosition()).isSelected());
                 notifyItemChanged(getAdapterPosition());
                 return false;
             }

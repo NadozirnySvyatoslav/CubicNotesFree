@@ -10,5 +10,10 @@
         cubic:actionViewClass="android.support.v7.widget.SearchView" />
     <item android:id="@+id/action_about" android:title="@string/action_about"
         android:orderInCategory="100" cubic:showAsAction="never" />
+    <item android:id="@+id/action_delete" android:title="Delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        cubic:showAsAction="ifRoom"
+        android:visible="false"
+        android:orderInCategory="100"  />
 
 </menu>

@@ -48,9 +48,9 @@
     <string name="about_copyright">Svyatoslav Nadozirny (C) 2015</string>
     <string name="action_about">About</string>
     <string name="check_filename_exists">file with same name exists</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
     <string name="set_color">Set color</string>
     <string name="not_selected">No items selected</string>
     <string name="delete_forever">Delete forever</string>
+    <string name="go_next">Go!</string>
+    <string name="check_filename_wrong">is illegal filename</string>
 </resources>

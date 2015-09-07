@@ -47,6 +47,8 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
     private LinearLayout mDeletedLayout;
     private ArrayList<HashMap<String,Object>> filenames=new ArrayList<HashMap<String,Object>>();
     private UndeleteAdapter listAdapter;
+    private int selected=0;
+    private MenuItem menuDel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +124,21 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
         mListDeleted=(ListView)findViewById(R.id.deleted);
         mDeletedLayout= (LinearLayout) findViewById(R.id.deleted_layout);
         adapter.addDeleted=this;
+        adapter.selectItem=new SelectInterface() {
+            @Override
+            public void select(int pos,boolean state) {
+                if (state){
+                    selected++;
+                }else{
+                    selected--;
+                }
+                if (selected > 0) {
+                    menuDel.setVisible(true);
+                }else{
+                    menuDel.setVisible(false);
+                }
+            }
+        };
         listAdapter = new UndeleteAdapter(this, R.layout.deleted, filenames);
         adapter.clearOldBackup(false);
         mListDeleted.setAdapter(listAdapter);
@@ -168,6 +185,7 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
+        menuDel = menu.findItem(R.id.action_delete);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -190,6 +208,11 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
             case R.id.action_about:
                     startActivity(new Intent(this,AboutActivity.class));
                 return true;
+            case R.id.action_delete:
+                    adapter.deletedSelected();
+                    selected=0;
+                    menuDel.setVisible(false);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -206,6 +229,7 @@ public final class MainActivity extends AppCompatActivity implements View.OnClic
             if (v.getId()==color_id[i]){
                 adapter.setItemsColor(getResources().getColor(colors[i]));
                 mDrawerLayout.closeDrawer(mDrawerView);
+                selected=0;
                 return;
             }
         }

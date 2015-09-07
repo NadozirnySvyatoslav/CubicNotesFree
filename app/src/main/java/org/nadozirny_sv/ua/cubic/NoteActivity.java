@@ -53,23 +53,28 @@ public class NoteActivity extends AppCompatActivity {
 
         switch(item.getItemId()){
             case R.id.action_save:
-                if (title.getText().toString().length()==0) {
-                    Toast.makeText(this,getResources().getString(R.string.check_filename),Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                Intent intent=new Intent();
-                if (!ni.getTitle().matches(title.getText().toString())){
-                    if (new File(DestDir.get().path + '/' +title.getText()).exists()){
-                        Toast.makeText(this, Html.fromHtml("<font color='red'><b>"+title.getText()+"</b></font> - "
-                                +getResources().getString(R.string.check_filename_exists)),Toast.LENGTH_SHORT).show();
+                try {
+                    if (title.getText().toString().length() == 0) {
+                        Toast.makeText(this, getResources().getString(R.string.check_filename), Toast.LENGTH_SHORT).show();
                         return false;
                     }
+                    Intent intent = new Intent();
+                    if (!ni.getTitle().matches(title.getText().toString())) {
+                        if (new File(DestDir.get().path + '/' + title.getText()).exists()) {
+                            Toast.makeText(this, Html.fromHtml("<font color='red'><b>" + title.getText() + "</b></font> - "
+                                    + getResources().getString(R.string.check_filename_exists)), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    }
+                    ni.setTitle(title.getText().toString());
+                    ni.setDesc(desc.getText().toString());
+                    ni.save();
+                    setResult(1, intent);
+                    finish();
+                }catch(Exception e){
+                    Toast.makeText(this, Html.fromHtml("<font color='red'><b>" + title.getText() + "</b></font> - "
+                            + getResources().getString(R.string.check_filename_wrong)), Toast.LENGTH_SHORT).show();
                 }
-                ni.setTitle(title.getText().toString());
-                ni.setDesc(desc.getText().toString());
-                ni.save();
-                setResult(1, intent);
-                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
